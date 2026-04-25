@@ -25,7 +25,7 @@ router.get('/:id', getSupervisorById);
 router.post('/login', loginSupervisor)
 
 //Crear Supervisados
-router.post('/supervisado/registrado/:id', crearSupervisado);
+router.post('/supervisado/registrado/', crearSupervisado);
 router.post('/supervisado/borrar/:id/:idSupervisado', borrarSupervisado);
 router.post('/supervisado/actualizar/:id/:idSupervisado', updateSupervisado);
 

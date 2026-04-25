@@ -218,20 +218,13 @@ export const getSupervisorById = async (req, res) => {
 //Crear Supervisado
 export const crearSupervisado = async (req, res) => {
     try {
-        const { id } = req.params;
-        console.log("El id es:" + id);
-
-        if (!id) {
-            return res.status(400).json({
-                error: 'ID requerido'
-            });
-        }
 
         const {
             nombre,
             appat,
             apmat,
-            fecha_nacimiento
+            fecha_nacimiento,
+            curp
         } = req.body;
 
         //Validacion Por Back
@@ -241,30 +234,16 @@ export const crearSupervisado = async (req, res) => {
             });
         }
 
-        //Otra validacion:
-
-        const { data: supervisor } = await supabase
-            .from('supervisor')
-            .select('id')
-            .eq('id', id)
-            .single();
-
-        if (!supervisor) {
-            return res.status(404).json({
-                error: 'Supervisor no existe'
-            });
-        }
-
         //Insertar Datos
         const { data, error } = await supabase
             .from('supervisado')
             .insert([
                 {
-                    supervisor_id: id,
                     nombre,
                     appat,
                     apmat,
-                    fecha_nacimiento
+                    fecha_nacimiento,
+                    curp
                 }
             ])
             .select();
