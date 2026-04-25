@@ -196,12 +196,16 @@ export const crearAlerta = async (req, res) => {
         }
 
         const {
-            mensaje,
-            device_uuid
-        } = req.body;
+            aplicacion_id,
+            tipo_alerta,
+            mensaje_detectado,
+            lat,
+            lon,
+            colonia,
+            municipio,
+            estado
 
-        tipoAlerta = "Grooming";
-        procesado = 0;
+        } = req.body;
 
         //Insertar Datos
         const { data, error } = await supabase
@@ -209,10 +213,14 @@ export const crearAlerta = async (req, res) => {
             .insert([
                 {
                     equipo_id: idEquipo,
-                    mensaje,
-                    device_uuid,
-                    tipo_alerta: tipoAlerta,
-                    procesado
+                    aplicacion_id,
+                    tipo_alerta,
+                    mensaje_detectado,
+                    lat,
+                    lon,
+                    colonia,
+                    municipio,
+                    estado
                 }
             ])
             .select();
@@ -225,7 +233,7 @@ export const crearAlerta = async (req, res) => {
         }
 
         res.status(201).json({
-            message: `Equipo del supervisado ${id} Registrado`,
+            message: `Alerta del equipo ${idEquipo} Registrada`,
             data
         });
 
