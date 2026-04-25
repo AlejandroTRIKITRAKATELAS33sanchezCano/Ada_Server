@@ -10,7 +10,9 @@ export const crearSupervisor = async (req, res) => {
             apmat,
             email,
             contrasena,
-            fecha_nacimiento
+            fecha_nacimiento,
+            curp,
+            ine
         } = req.body;
 
         //Validacion Por Back
@@ -30,7 +32,9 @@ export const crearSupervisor = async (req, res) => {
                     apmat,
                     email,
                     contrasena,
-                    fecha_nacimiento
+                    fecha_nacimiento,
+                    curp,
+                    ine
                 }
             ])
             .select();
@@ -44,7 +48,6 @@ export const crearSupervisor = async (req, res) => {
 
         res.status(201).json({
             message: 'Supervisor registrado',
-            data
         });
 
     } catch (err) {
