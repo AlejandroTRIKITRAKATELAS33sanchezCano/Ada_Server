@@ -339,7 +339,7 @@ export const crearVinculacion = async (req, res) => {
 
         res.status(201).json({
             message: `codigo Registrad`,
-            codigo: data.codigo
+            codigo: data[0].codigo
         });
 
     } catch (err) {
