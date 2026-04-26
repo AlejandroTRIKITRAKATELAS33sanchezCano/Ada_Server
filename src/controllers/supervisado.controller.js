@@ -304,3 +304,47 @@ export const crearApp = async (req, res) => {
         });
     }
 }
+
+export const crearVinculacion = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+        console.log("El id es: " + id);
+
+        if (!id) {
+            return res.status(400).json({
+                error: 'ID requerido'
+            })
+        }
+
+        //Insertar Datos
+        const { data, error } = await supabase
+            .from('codigoVinculacion')
+            .insert([
+                {
+                    id_Supervisado: id,
+                    expiracion: new Date(Date.now() + 10 * 60 * 1000),
+                    usado: false,
+                    codigo: Math.random().toString(36).substring(2, 8).toUpperCase(),
+                }
+            ])
+            .select();
+
+        if (error) {
+            //Errores de supaBase
+            return res.status(400).json({
+                error: error.message
+            });
+        }
+
+        res.status(201).json({
+            message: `codigo Registrad`,
+            codigo: data.codigo
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+}

@@ -4,7 +4,8 @@ import {
     eliminarEquipoComputo,
     consultarEquipoComputo,
     crearAlerta,
-    crearApp
+    crearApp,
+    crearVinculacion
 } from '../controllers/supervisado.controller.js'
 
 const router = express.Router();
@@ -23,6 +24,9 @@ router.post('/alerta/crear/:id/:idEquipo', crearAlerta);
 
 //CREAR APLICACION
 router.post('/aplicacion/crear/:id', crearApp);
+
+//Crear Codigo de vinculacion
+router.post('/codigo/vinculacion/:id', crearVinculacion);
 
 export const path = '/supervisado';
 export default router;

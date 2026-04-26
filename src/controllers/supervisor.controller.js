@@ -172,7 +172,7 @@ export const loginSupervisor = async (req, res) => {
 
         res.json({
             message: 'Login exitoso',
-            data
+            id: data.id
         });
 
     } catch (err) {
@@ -406,6 +406,63 @@ export const consultarSupervisados = async (req, res) => {
             total: data.length,
             data
         });
+
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+}
+
+//Vincular Supervisados
+export const vincularSupervisados = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({
+                error: 'ID del supervisor requerido'
+            });
+        }
+
+        const { error } = await supabase
+            .from('supervisado')
+            .select('*')
+            .eq('supervisor_id', id);
+
+        if (error) {
+            return res.status(400).json({
+                error: error.message
+            });
+        }
+
+        const {
+            codigo
+        } = req.body;
+
+        const { data} = await supabase
+            .from('codigoVinculacion')
+            .select('*')
+            .eq('codigo', codigo)
+            .single();
+
+        if (!data || data.usado) {
+            return res.status(400).json({ error: 'Código inválido' });
+        }
+
+        if (new Date(data.expira_en) < new Date()) {
+            return res.status(400).json({ error: 'Código expirado' });
+        }
+
+        // Crear relación
+        await supabase
+            .from('supervisado')
+            .update({ supervisor_id: id })
+            .eq('id', data.id_Supervisado);
+
+        res.json({ ok: true });
 
     } catch (err) {
         res.status(500).json({
